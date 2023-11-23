@@ -4,6 +4,7 @@ namespace App\Repositery\Order;
 
 use App\Http\Resources\Order\OrderResource;
 use App\Models\Order;
+use App\Models\Room;
 use Illuminate\Support\Facades\DB;
 
 class OrderRepositry implements OrderInterface
@@ -49,6 +50,10 @@ class OrderRepositry implements OrderInterface
             }
 
             $model->update($request);
+
+            if ($request['agree'] == 1){
+                Room::find($request['room_id'])->update(['status_id'=> 2]);
+            }
 
             DB::commit();
             return responseJson(200, 'success');

@@ -84,7 +84,10 @@ class RoomRepositry implements RoomInterface
 
     public function getDropdown()
     {
-        $models = Room::select('id','name','code')->get();
+        $models = Room::
+            select('id','name','code')
+            ->whereRelation('status','status_id',3)
+            ->get();
 
         return responseJson(200, 'success', RoomDropdownResource::collection($models),null);
     }
